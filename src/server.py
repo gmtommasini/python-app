@@ -22,25 +22,17 @@ def user(user, number, rest):
 
 @app.route('/guess/<name>')
 def get_guess_page(name):
+  """This is an example route of how to use parameters and call external apis"""
   dt = requests.get("https://api.agify.io", params={'name':name}).json()
   dt2 = requests.get("https://api.genderize.io", params={'name':name}).json()
-  dt3 = {
-    "some": {
-      "thing": {
-        "else": "SomethingElse",
-        "other": "SomethingOther"
-      },
-      "stuff":"SomeStuff"
-    }
-  }
   dt.update(dt2)
-  dt.update(dt3)
   print(dt)
   return render_template('guess.html', data=dt)
 
 
 @app.route('/blog')
 def get_blog_page():
+  """This is another example route of how to use parameters"""
   resp = requests.get("https://api.npoint.io/c790b4d5cab58020d391")
   resp = resp.json()
   return render_template("blog.html", data=resp) 
@@ -89,7 +81,7 @@ def generate_qrcode():
         else:
             return jsonify({'message': "Image saved at {}".format(req.get("path", False))})
         
-    else:
+    else: # request.method == 'GET'
         return jsonify({'message': '''Use a POST method with the following structure:
 {
     "data": "<URL>",
