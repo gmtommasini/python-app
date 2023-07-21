@@ -8,6 +8,9 @@ pip install -r requirements.txt
 echo "--------------------------------------------------------------------------"
 printenv
 echo "--------------------------------------------------------------------------"
+echo "https://www.pythonanywhere.com/api/v0/user/${PYTHONANYWHERE_USERNAME}/webapps/${PYTHONANYWHERE_WEBAPP_DOMAIN}/reload/"
+echo "Authorization: Token ${PYTHONANYWHERE_API_TOKEN}"
+echo "--------------------------------------------------------------------------"
 
 curl "https://www.pythonanywhere.com/api/v0/user/${PYTHONANYWHERE_USERNAME}/webapps/${PYTHONANYWHERE_WEBAPP_DOMAIN}/reload/" \
   --request POST \
