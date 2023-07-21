@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>QR Code</title>
+    <style>
+		body {
+			background-color: #f2f2f2;
+			color: #333;
+			font-family: Arial, sans-serif;
+			padding: 20px;
+		}
+    #container{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 90vh;
+    }
+		h1 {
+			color: #0099cc;
+			font-size: 36px;
+			margin-bottom: 10px;
+		}
+		form {
+			background-color: #fff;
+			border: 1px solid #ccc;
+			padding: 20px;
+			max-width: 500px;
+			/* margin: 0 auto; */
+		}
+		label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
+		input[type="text"] {
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			width: 100%;
+			box-sizing: border-box;
+		}
+		button[type="submit"] {
+			background-color: #0099cc;
+			color: #fff;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+      margin-top: 5px;
+		}
+    #img_container{
+      padding: 5px;
+    }
+    #disclaimer{
+      font-size: 9px;
+    }
+	</style>
+  </head>
+  <body>
+    <div id="container">
+      <div>
+        <h1>QR Code Generator</h1>
+        <p>Insert in the field bellow the URl to generate the QR Code.</p>
+        <form action="/qrcode" method="post">
+          <label for="url">URL:</label>
+          <input type="text" id="url" name="url"
+            placeholder="Enter the url/data" required
+            value="{% if data %}{{ data.url.strip() }}{% endif %}">
+
+          <button type="submit">Generate</button>
+        </form>
+        {% if data %}
+        <hr>
+        <div id="img_container">
+          <img src="data:image/png;base64,{{ data.img }}" alt="qr code image" />
+        </div>
+        {% endif %}
+      </div>
+      <div>
+        <p id="disclaimer">This page was generate by Python/Flask</p>
+      </div>
+
+    </div>
+  </body>
+</html>
