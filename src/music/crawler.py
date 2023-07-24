@@ -12,4 +12,4 @@ def get_soup(date='2020-10-20'):
 
 if __name__ == '__main__':
   date = '2005-05-13'
-  get_soup(date)
+  print(get_soup(date))
