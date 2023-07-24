@@ -1,5 +1,5 @@
 import os
 
-
 SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_TOKEN = os.environ.get('SPOTIFY_CLIENT_TOKEN')
+SPOTIFY_REDIRECT_URL = os.environ.get('SPOTIFY_REDIRECT_URL')
