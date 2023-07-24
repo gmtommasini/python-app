@@ -2,10 +2,11 @@
 from flask import Blueprint, request, jsonify
 
 # Modules
-from src.utils.dates import is_valid_date
+# from src.utils.dates import is_valid_date
 from .crawler import get_soup
 from .spotify import spot
 from .track import Track
+from utils import dates
 
 blueprint_api_music = Blueprint('music', __name__, url_prefix='/api/music')
 
@@ -26,7 +27,7 @@ def get_week_songs_api():
     """Returns a list of tuples (Artist, Song Name) for the week of given date"""
     print("MUSIC GET")
     date = request.args.get('date', None)
-    if date and is_valid_date(date):
+    if date and dates.is_valid_date(date):
         return get_week_songs(date)
     return 'Invalid date', 400
 
