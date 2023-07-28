@@ -4,11 +4,59 @@ from flask import Blueprint, request, jsonify
 # Modules
 # from src.utils.dates import is_valid_date
 from .crawler import get_soup
-from .spotify import spot
+from .spotify import spot, get_token, get_oauth_url, generate_random_string
 from .track import Track
 from utils import dates
 
 blueprint_api_music = Blueprint('music', __name__, url_prefix='/api/music')
+
+
+@blueprint_api_music.route('/get_spotify_auth_url', methods=['POST', 'GET'])
+def get_authorization_url():
+    auth_url = get_oauth_url()
+    return jsonify(authorizationUrl=auth_url, state=generate_random_string())
+
+
+@blueprint_api_music.route('/get_spotify_user_token', methods=['GET'])
+def get_user_token():
+    print("GETTING TOKEN")
+    try:
+        callback_code: str = request.args.get("callback_code")
+        state: str = request.args.get("state")
+        print("code,state: ", callback_code, state)
+        token = get_token(callback_code, )
+        print("Token: ", token)
+        resp = jsonify(userToken=token)
+        print(resp)
+        return resp
+    except Exception as error:
+        return jsonify(error)
+
+
+@blueprint_api_music.route('/auth', methods=['POST', 'GET'])
+def user_oauth_something():
+    """This is a test of Spotify initialization..."""
+    print("SOMETHING IS WORKING")
+    spot.initialize_instance()
+    return {"message": "OK"}, 200
+
+@blueprint_api_music.route('/callback')
+def spotify_callback():
+    """This is a test on the callback"""
+    code = request.args.get("code")  # Get the authorization code from the query parameters
+    print("CALLBACK code: ", code)
+    if code:
+        # Use the authorization code to get the access token
+        try:
+            print("going to call the handler")
+            user_id = spot.handle_callback(code)
+            print("USER_ID:", user_id)
+            return user_id
+        except Exception as e:
+            print(e)
+            return "ERROR on callback", 500
+    else:
+        return "Authorization failed. No code provided."
 
 
 @blueprint_api_music.route('/', methods=['OPTIONS'], strict_slashes=False)
@@ -138,35 +186,5 @@ def save_spotify_list(track_uris_list: list[str], date: str=None, list_name: str
 
 
 
-
-
-
-
-
-# @blueprint_api_music.route('/callback')
-# def spotify_callback():
-#     """This is a test on the callback"""
-#     code = request.args.get("code")  # Get the authorization code from the query parameters
-#     print("CALLBACK code: ", code)
-#     if code:
-#         # Use the authorization code to get the access token
-#         print("going to call the handler")
-#         try:
-#             user_id = spot.handle_callback(code)
-#             print("USER_ID:", user_id)
-#             return user_id
-#         except Exception as e:
-#             print(e)
-#             return "ERROR on callback", 500
-#     else:
-#         return "Authorization failed. No code provided."
-
-#
-# @blueprint_api_music.route('/auth', methods=['POST', 'GET'])
-# def user_oauth():
-#     """This is a test of Spotify initialization..."""
-#     print("SOMETHING IS WORKING")
-#     spot.initialize_instance()
-#     return "OK"
 
 
