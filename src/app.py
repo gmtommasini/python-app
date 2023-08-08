@@ -16,8 +16,8 @@ app.register_blueprint(blueprint_api_music)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
-    # app.run()
+    # app.run(host='0.0.0.0', port=80)
+    app.run()
     # app.run(debug=True) # Just use this for developing
 
 print("done")
