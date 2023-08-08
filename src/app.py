@@ -6,7 +6,7 @@ from views import blueprint_views
 from music.api_music import blueprint_api_music
 
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, origins='*')
 
 
 # Registering Blueprints
